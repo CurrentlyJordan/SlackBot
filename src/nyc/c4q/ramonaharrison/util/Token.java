@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 public class Token {
 
+
     public static String findApiToken() {
 
         String apiKey = "";

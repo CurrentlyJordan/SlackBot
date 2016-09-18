@@ -6,6 +6,7 @@ import nyc.c4q.ramonaharrison.util.Token;
 import org.json.simple.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
@@ -110,5 +111,21 @@ public class Slack {
         URL deleteMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_DELETE_MESSAGE + "?token=" + API_KEY + "&channel=" + BOTS_CHANNEL_ID + "&ts=" + messageTs);
 
         return new DeleteMessageResponse(HTTPS.get(deleteMessageUrl));
+    }
+
+    public static SendMessageResponse sendLink(String messageText) throws MalformedURLException {
+        URL url = new URL(messageText);
+
+
+
+        try {
+            messageText = URLEncoder.encode(messageText, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+
+        URL sendMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_POST_MESSAGE + "?token=" + API_KEY + "&channel=" + BOTS_CHANNEL_ID + "&text=" + url);
+
+        return new SendMessageResponse(HTTPS.get(sendMessageUrl));
     }
 }

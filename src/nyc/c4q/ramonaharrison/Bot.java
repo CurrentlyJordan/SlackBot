@@ -5,7 +5,11 @@ import nyc.c4q.ramonaharrison.model.Message;
 import nyc.c4q.ramonaharrison.network.*;
 import nyc.c4q.ramonaharrison.network.response.*;
 
+import java.net.MalformedURLException;
 import java.util.List;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Ramona Harrison
@@ -15,6 +19,83 @@ import java.util.List;
 
 public class Bot {
     // TODO: implement your bot logic!
+
+    public void trollbot() {
+        Timer timer = new Timer();
+
+        while (true) {
+            Bot bot = new Bot();
+            ListMessagesResponse listMessagesResponse = Slack.listMessages(Slack.BOTS_CHANNEL_ID);
+            List<Message> messages = listMessagesResponse.getMessages();
+            String originalMessage = messages.get(0).getText();
+
+            if (originalMessage.contains("game")) {
+
+                bot.sendMessageToBotsChannel("Do you wanna play a g@me?");
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        sendMessageToBotsChannel("https://media.makeameme.org/created/sike-boy-got.jpg");
+                    }
+                };
+                timer.schedule(task,3500);
+
+            }
+        }
+
+    }
+//    static void question() {
+//
+//        Bot bot = new Bot();
+//        ListMessagesResponse listMessagesResponse = Slack.listMessages(Slack.BOTS_CHANNEL_ID);
+//        List<Message> messages = listMessagesResponse.getMessages();
+//        //String initialMessage = messages.get(0).getText();
+//        (initialMessage.toLowerCase().contains("game")) {
+//            bot.sendMessageToBotsChannel("Do you want to play a game?");
+//            //String answer1 = messages.get(0).getText();
+////                if (answer1.toLowerCase().contains("yes") || answer1.toLowerCase().contains("yes")) {
+////                    bot.sendMessageToBotsChannel("Go get a game then son!!" + "\nwww.hasbro.com");
+//        }
+//    }
+
+//    Timer timer = new Timer();
+//    TimerTask task = new TimerTask() {
+//        @Override
+//        public void run() {
+//            System.out.println("Test Timer");
+//        }
+//    };
+//            timer.schedule(task,2000);
+//
+//            timer.cancel();
+
+
+
+
+
+//            System.out.print("Do you want to play a game?" + "\n> ");
+//            //Scanner input = new Scanner (System.in);
+//            //String questionAnswer = input.next();
+//
+//            while ((questionAnswer != "yes") || (questionAnswer != "y") || (questionAnswer != "no") || (questionAnswer != "n")) {
+//
+//                if (questionAnswer.equalsIgnoreCase("yes") || questionAnswer.equalsIgnoreCase("y")) {
+//
+//                    System.out.println("Go get a game then son!!" + "\nwww.hasbro.com");
+//                    break;
+//
+//                } else if (questionAnswer.equalsIgnoreCase("no") || questionAnswer.equalsIgnoreCase("n")) {
+//                    System.out.println("Fine! Stop wasting my time then fool!");
+//                    break;
+//
+//                } else {
+//                    System.out.println("HEY!!! C'mon! You know better");
+//                    Scanner secondInput = new Scanner(System.in);
+//                    questionAnswer = secondInput.next();
+//                }
+//            }
+//        }
+//    }
 
     public Bot() {
 
@@ -96,6 +177,16 @@ public class Bot {
             System.out.println("Message deleted successfully!");
         } else {
             System.err.print("Error sending message: " + deleteMessageResponse.getError());
+        }
+    }
+
+    public void sendLinkToBotsChannel(String text) throws MalformedURLException {
+        SendMessageResponse sendMessageResponse = Slack.sendLink(text);
+
+        if (sendMessageResponse.isOk()) {
+            System.out.println("Message sent successfully!");
+        } else {
+            System.err.print("Error sending message: " + sendMessageResponse.getError());
         }
     }
 }
