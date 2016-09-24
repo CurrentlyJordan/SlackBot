@@ -55,6 +55,30 @@ public class Bot {
 
     }
 
+    public void pleaseBotv2(){
+        while (true){
+            ListMessagesResponse listMessagesResponse = Slack.listMessages(Slack.BOTS_CHANNEL_ID);
+            if (listMessagesResponse.isOk()) {
+                Bot bot = new Bot();
+                List<Message> messages = listMessagesResponse.getMessages();
+                String originalMessage = messages.get(0).getText();
+                if(originalMessage.toLowerCase().contains("please")){
+                    bot.sendMessageToBotsChannel("Someone said please. Here's a cat gif");
+                    bot.sendMessageToBotsChannel(CatGifs.catPics());
+                }
+
+
+            }
+            else{  System.err.print("Error listing messages: " + listMessagesResponse.getError());
+                break;
+
+            }
+
+
+        }
+
+    }
+
     /**
      * Sample method: tests the Slack API. Prints a message indicating success or failure.
      */

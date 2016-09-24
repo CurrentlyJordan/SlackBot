@@ -22,42 +22,19 @@ import java.util.Map;
 
 public class Main {
 
+    public static void main(String[] args) throws Exception {
 
+        Bot myBot = new Bot();
 
-    public static void main(String[] args) throws IOException, ParseException {
-
-
-        //JSONObject obj = new JSONObject();
         JSONParser parser = new JSONParser();
+        Object obj = parser.parse(new FileReader("Attachment.json"));
+        JSONArray jsonObject = (JSONArray) obj;
+
+        //Slack.sendMessageWithAttachments(jsonObject);
+
+       // myBot.pleaseBotv2();
+        myBot.replaceWord(Slack.BOTS_CHANNEL_ID);
 
 
-
-            Object obj = parser.parse(new FileReader("/Users/Millochka/Desktop/accesscodeClass/SlackBot/src/nyc/c4q/ramonaharrison/model/Attachment.json"));
-
-            JSONArray jsonObject = (JSONArray) obj;
-
-        Slack.sendMessageWithAttachments(jsonObject);
-
-
-
-
-            Bot myBot = new Bot();
-
-     myBot.replaceWord(Slack.BOTS_CHANNEL_ID);
-
-            //}
-
-
-            //myBot.testApi();
-
-            //myBot.listChannels();
-
-
-            // Post "Hello, world!" to the #bots channel
-            //myBot.sendMessageToBotsChannel("Test2!");
-
-            // Post a pineapple photo to the #bots channel
-            //Slack.sendMessage("http://weknowyourdreams.com/images/pineapple/pineapple-07.jpg");
-
-        }
     }
+}
